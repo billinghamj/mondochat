@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+import {resolve as urlResolve} from 'url';
+import App from '../app';
+import MondoAuth from '../lib/mondo-auth';
+
+const clientId = process.env.MONDO_CLIENT_ID;
+const clientSecret = process.env.MONDO_CLIENT_SECRET;
+const appBaseUrl = process.env.APP_BASE_URL;
+
+App.set('mondo-auth', new MondoAuth(clientId, clientSecret));
+App.set('auth-redirect-url', urlResolve(appBaseUrl, 'oauth_response'));
+
+const port = process.env.PORT || 3000;
+App.listen(port, () => console.log(`listening on port ${port}`));

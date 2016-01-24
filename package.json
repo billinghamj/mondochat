@@ -1,0 +1,22 @@
+{
+	"main": "app/index.js",
+
+	"scripts": {
+		"debug": "nodemon --exec babel-node -- bin/start",
+		"start": "babel-node bin/start"
+	},
+
+	"dependencies": {
+		"babel": "^5.8.35",
+		"body-parser": "^1.14.2",
+		"express": "^4.13.4",
+		"express-handlebars": "^2.0.1",
+		"express-promise-router": "^0.0.9",
+		"json-client": "^0.8.2",
+		"mondo-bank": "^0.1.9"
+	},
+
+	"devDependencies": {
+		"nodemon": "^1.8.1"
+	}
+}
