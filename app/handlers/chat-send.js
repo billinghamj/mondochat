@@ -7,8 +7,8 @@ export default async function (req, res) {
 	const {userId, message} = req.body;
 
 	const [allUsers, sender] = await Promise.all([
-		async () => ((await redis.hvals('mondonauts')).map(JSON.parse)),
-		async () => (JSON.parse(await redis.hget('mondonauts', userId))),
+		(async () => ((await redis.hvals('mondonauts')).map(JSON.parse)))(),
+		(async () => (JSON.parse(await redis.hget('mondonauts', userId))))(),
 	]);
 
 	await Promise.all(allUsers.map(async function (user) {
