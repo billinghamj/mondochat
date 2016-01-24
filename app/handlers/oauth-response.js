@@ -13,9 +13,6 @@ export default async function (req, res) {
 	const mToken = authinfo.access_token;
 	const mRefresh = authinfo.refresh_token;
 
-	await redis.hset('mondo_access_tokens', mUserId, mToken);
-	await redis.hset('mondo_refresh_tokens', mUserId, mRefresh);
-
 	const accounts = (await MondoClient.accounts(mToken)).accounts;
 
 	if (!accounts || !accounts.length)
@@ -23,8 +20,13 @@ export default async function (req, res) {
 
 	const account = accounts[0];
 
-	await redis.hset('mondo_accounts', mUserId, account.id);
-	await redis.hset('mondo_names', mUserId, account.description);
+	await redis.hset('mondonauts', mUserId, JSON.stringify({
+		id: mUserId,
+		accountId: account.id,
+		name: account.description,
+		accessToken: mToken,
+		refreshToken: mRefresh,
+	}));
 
 	await MondoClient.createFeedItem({
 		account_id: account.id,
