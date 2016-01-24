@@ -3,10 +3,8 @@ export default async function (req, res) {
 	const url = req.app.get('auth-redirect-url');
 	const code = req.query.code;
 
-	const redir = auth.authorizationUrl(url);
-
 	try {
-		const tokenInfo = await auth.createToken(code, redir);
+		const tokenInfo = await auth.createToken(code, url);
 
 		res.json(tokenInfo);
 	} catch (error) {
