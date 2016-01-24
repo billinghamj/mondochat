@@ -11,8 +11,10 @@ export default async function (req, res) {
 	const authinfo = await mondoAuth.createToken(authCode, redirUrl);
 	const mUserId = authinfo.user_id;
 	const mToken = authinfo.access_token;
+	const mRefresh = authinfo.refresh_token;
 
-	await redis.hset('mondo_tokens', mUserId, mToken);
+	await redis.hset('mondo_access_tokens', mUserId, mToken);
+	await redis.hset('mondo_refresh_tokens', mUserId, mRefresh);
 
 	const accounts = (await MondoClient.accounts(mToken)).accounts;
 
