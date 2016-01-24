@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import Redis from 'then-redis';
 import {resolve as urlResolve} from 'url';
 import App from '../app';
 import MondoAuth from '../lib/mondo-auth';
@@ -8,7 +9,9 @@ const clientId = process.env.MONDO_CLIENT_ID;
 const clientSecret = process.env.MONDO_CLIENT_SECRET;
 const appBaseUrl = process.env.APP_BASE_URL;
 
+App.set('redis', Redis.createClient(process.env.REDIS_URL));
 App.set('mondo-auth', new MondoAuth(clientId, clientSecret));
+App.set('app-base-url', appBaseUrl);
 App.set('auth-redirect-url', urlResolve(appBaseUrl, 'oauth_response'));
 
 const port = process.env.PORT || 3000;
