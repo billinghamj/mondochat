@@ -21,12 +21,13 @@ export default async function (req, res) {
 	if (!accounts || !accounts.length)
 		throw new Error('no Mondo accounts found');
 
-	const accountId = accounts[0].id;
+	const account = accounts[0];
 
-	await redis.hset('mondo_accounts', mUserId, accountId);
+	await redis.hset('mondo_accounts', mUserId, account.id);
+	await redis.hset('mondo_names', mUserId, account.description);
 
 	await MondoClient.createFeedItem({
-		account_id: accountId,
+		account_id: account.id,
 		type: 'basic',
 		url: urlResolve(appBaseUrl, `chats/${mUserId}`),
 		params: {
@@ -35,5 +36,5 @@ export default async function (req, res) {
 		},
 	}, mToken);
 
-	res.text('👍');
+	res.send('👍');
 }
