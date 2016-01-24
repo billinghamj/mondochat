@@ -4,7 +4,12 @@ export default async function (req, res) {
 	const code = req.query.code;
 
 	const redir = auth.authorizationUrl(url);
-	const tokenInfo = await auth.createToken(code, redir);
 
-	res.json(tokenInfo);
+	try {
+		const tokenInfo = await auth.createToken(code, redir);
+
+		res.json(tokenInfo);
+	} catch (error) {
+		res.json(error);
+	}
 }
